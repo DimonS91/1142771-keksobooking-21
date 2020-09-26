@@ -2,9 +2,10 @@
 
 const mapPin = document.querySelector('#pin').content.querySelector('.map__pin');
 const mapPins = document.querySelector('.map__pins');
-const mapElement = document.querySelector('.map').classList.remove('map--faded');
+const mapElement = document.querySelector('.map');
 const housePriceField = document.querySelector('#housing-price');
 housePriceField.classList.remove('hidden');
+mapElement.classList.remove('map--faded');
 
 const OBJECT_TITLES = ['Большая квартира', 'Шикарный петхаус', 'Гостевой дом', 'Коттедж для большой семьи', 'Номер в мотеле'];
 const OBJECT_TIPES = ['palace', 'flat', 'house', 'bungalow'];
@@ -61,8 +62,6 @@ const getPins = (count) => {
   return array;
 };
 
-const pinsArray = getPins(8);
-
 const createPin = (pin) => {
   const element = mapPin.cloneNode(true);
 
@@ -79,5 +78,5 @@ const renderPins = (pinsArray) => {
     mapPins.appendChild(createPin(pin));
   });
 };
-
+const pinsArray = getPins(8);
 renderPins(pinsArray);
