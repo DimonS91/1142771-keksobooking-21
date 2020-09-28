@@ -9,7 +9,7 @@ housePriceField.classList.remove('hidden');
 mapElement.classList.remove('map--faded');
 
 const OBJECT_TITLES = ['Большая квартира', 'Шикарный петхаус', 'Гостевой дом', 'Коттедж для большой семьи', 'Номер в мотеле'];
-const OBJECT_TIPES = ['palace', 'flat', 'house', 'bungalow'];
+const OBJECT_TYPES = ['palace', 'flat', 'house', 'bungalow'];
 const CHECK_TIMES = ['12:00', '13:00', '14:00'];
 const OBJECT_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 const OBJECT_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
@@ -17,17 +17,12 @@ const OBJECT_DESCRIPTION = ['1', '2', '3', '4', '5'];
 const offsetX = 25;
 const offsetY = 35;
 
-for (let i = 0; i < OBJECT_TIPES.length; i++) {
-  if (OBJECT_TIPES[i] === 'flat') {
-    OBJECT_TIPES[i] = 'Квартира';
-  } else if (OBJECT_TIPES[i] === 'palace') {
-    OBJECT_TIPES[i] = 'Дворец';
-  } else if (OBJECT_TIPES[i] === 'house') {
-    OBJECT_TIPES[i] = 'Дом';
-  } else if (OBJECT_TIPES[i] === 'bungalow') {
-    OBJECT_TIPES[i] = 'Бунгало';
-  }
-}
+const houseTypes = {
+  'palace': 'Дворец',
+  'flat': 'Квартира',
+  'house': 'Дом',
+  'bungalow': 'Бунгало'
+};
 
 const getRandomInt = (min, max) => {
   min = Math.ceil(min);
@@ -57,7 +52,7 @@ const getPins = (count) => {
         'title': getRandomElement(OBJECT_TITLES),
         'address': '600, 350',
         'price': getRandomInt(200, 50000),
-        'type': getRandomElement(OBJECT_TIPES),
+        'type': getRandomElement(OBJECT_TYPES),
         'rooms': getRandomInt(1, 10),
         'guests': getRandomInt(1, 20),
         'checkin': getRandomElement(CHECK_TIMES),
@@ -104,7 +99,7 @@ const createElementPopup = (element, incomingData) => {
   }
 };
 
-const createFeaturesPopup = (element, incomingData) => {
+const renderFeaturesPopup = (element, incomingData) => {
   element.innerHTML = '';
   if (!incomingData.length) {
     element.style.display = 'none';
@@ -118,7 +113,7 @@ const createFeaturesPopup = (element, incomingData) => {
   });
 };
 
-function createPhotosPopup(element, incomingData) {
+function renderPhotosPopup(element, incomingData) {
   element.innerHTML = '';
   if (!incomingData.length) {
     element.style.display = 'none';
@@ -138,12 +133,12 @@ function createPhotosPopup(element, incomingData) {
 const createPopup = (popup) => {
   const popupElement = card.cloneNode(true);
 
-  createPhotosPopup(popupElement.querySelector('.popup__photos'), popup.offer.photos);
-  createFeaturesPopup(popupElement.querySelector('.popup__features'), popup.offer.features);
+  renderPhotosPopup(popupElement.querySelector('.popup__photos'), popup.offer.photos);
+  renderFeaturesPopup(popupElement.querySelector('.popup__features'), popup.offer.features);
   createElementPopup(popupElement.querySelector('.popup__description'), popup.offer.description);
   createElementPopup(popupElement.querySelector('.popup__text--capacity'), `${popup.offer.rooms} комнаты для ${popup.offer.guests} гостей`);
   createElementPopup(popupElement.querySelector('.popup__text--time'), `Заезд после ${popup.offer.checkin}, выезд до ${popup.offer.checkout}`);
-  createElementPopup(popupElement.querySelector('.popup__type'), popup.offer.type);
+  createElementPopup(popupElement.querySelector('.popup__type'), houseTypes[popup.offer.type]);
   createElementPopup(popupElement.querySelector('.popup__text--price'), `${popup.offer.price}₽/ночь`);
   createElementPopup(popupElement.querySelector('.popup__text--address'), popup.offer.address);
   createElementPopup(popupElement.querySelector('.popup__title'), popup.offer.title);
@@ -163,6 +158,7 @@ const renderPins = (pinsArray) => {
     mapPins.appendChild(createPin(pin));
   });
 };
+
 const pinsArray = getPins(8);
 
 renderPins(pinsArray);
