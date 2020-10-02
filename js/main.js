@@ -4,18 +4,14 @@ const mapPin = document.querySelector('#pin').content.querySelector('.map__pin')
 // const card = document.querySelector('#card').content.querySelector('.map__card');
 const mapPins = document.querySelector('.map__pins');
 const mapFilters = document.querySelector('.map__filters');
-const mapFiltersSelects = mapFilters.querySelectorAll('select');
-const mapFiltersFieldset = mapFilters.querySelector('fieldset');
+const filterElements = mapFilters.querySelectorAll('select');
 const mapPinMain = document.querySelector('.map__pin--main');
 const mapElement = document.querySelector('.map');
 const housePriceField = document.querySelector('#housing-price');
 const addForm = document.querySelector('.ad-form');
+const formElements = addForm.querySelectorAll('fieldset');
 const addressForm = document.querySelector('#address');
-const formFieldsetElement = addForm.querySelectorAll('fieldset');
-
 const roomNumber = document.querySelector('#room_number');
-
-
 const capacity = document.querySelector('#capacity');
 const capacityOptions = capacity.querySelectorAll('option');
 housePriceField.classList.remove('hidden');
@@ -26,10 +22,8 @@ const CHECK_TIMES = ['12:00', '13:00', '14:00'];
 const OBJECT_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 const OBJECT_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 const OBJECT_DESCRIPTION = ['1', '2', '3', '4', '5'];
-const offsetMainPinX = 32.5;
-const offsetMainPinY = 43.5;
-const valueX = Math.round(570 + offsetMainPinX);
-const valueY = Math.round(375 + offsetMainPinY);
+const MAIN_PIN_WIDTH = 65;
+const MAIN_PIN_HEIGHT = 65;
 const offsetX = 25;
 const offsetY = 35;
 
@@ -178,44 +172,49 @@ const renderPins = (pinsArray) => {
 const pinsArray = getPins(8);
 // renderPopup(pinsArray);
 
-const getAtivationAndInactivation = (bool) => {
-  mapFiltersSelects.forEach((element) => {
+const setAtivationAndInactivation = (bool, filter, form) => {
+  filter.forEach((element) => {
     element.disabled = bool;
   });
 
-  formFieldsetElement.forEach((element) => {
+  form.forEach((element) => {
     element.disabled = bool;
   });
-
-  mapFiltersFieldset.disabled = bool;
 };
 
-getAtivationAndInactivation(true);
+setAtivationAndInactivation(true, filterElements, formElements);
 
-const getActivateMap = () => {
+const activationMap = () => {
   mapElement.classList.remove('map--faded');
   addForm.classList.remove('ad-form--disabled');
-  getAtivationAndInactivation(false);
+  setAtivationAndInactivation(false, filterElements, formElements);
   renderPins(pinsArray);
+  checkRoom(roomNumber.value);
 };
 
-const createAddress = () => {
-  addressForm.value = `${valueX}, ${valueY}`;
+const createAddress = (coordinateX, coordinateY) => {
+  addressForm.value = `${Math.round(coordinateX + MAIN_PIN_WIDTH / 2)}, ${Math.round(coordinateY + MAIN_PIN_HEIGHT / 2)}`;
 };
 
-mapPinMain.addEventListener('mousedown', (evt) => {
+const onPinMouseDown = (evt) => {
   if (evt.which === 1) {
-    getActivateMap();
-    createAddress();
+    activationMap();
+    createAddress(570, 375);
   }
-});
+  mapPinMain.removeEventListener('mousedown', onPinMouseDown);
+};
 
-mapPinMain.addEventListener('keydown', (evt) => {
+const onPinKeyDown = (evt) => {
   if (evt.keyCode === 13) {
-    getActivateMap();
-    createAddress();
+    activationMap();
+    createAddress(570, 375);
   }
-});
+  mapPinMain.removeEventListener('keydown', onPinKeyDown);
+};
+
+mapPinMain.addEventListener('mousedown', onPinMouseDown);
+mapPinMain.addEventListener('keydown', onPinKeyDown);
+
 
 const roomValues = {
   1: [1],
