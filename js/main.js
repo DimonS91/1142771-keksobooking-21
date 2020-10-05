@@ -18,9 +18,7 @@ const roomNumber = document.querySelector('#room_number');
 const capacity = document.querySelector('#capacity');
 const capacityOptions = capacity.querySelectorAll('option');
 const timeIn = document.querySelector('#timein');
-// const timeInOption = timeIn.querySelectorAll('option');
 const timeOut = document.querySelector('#timeout');
-const timeOutOption = timeOut.querySelectorAll('option');
 housePriceField.classList.remove('hidden');
 
 const OBJECT_TITLES = ['Большая квартира', 'Шикарный петхаус', 'Гостевой дом', 'Коттедж для большой семьи', 'Номер в мотеле'];
@@ -99,22 +97,22 @@ const renderCard = (data) => {
 };
 
 
-const createPin = (pinsArray) => {
+const createPin = (pin) => {
   const element = mapPin.cloneNode(true);
 
-  element.querySelector('img').src = pinsArray.author.avatar;
-  element.querySelector('img').alt = pinsArray.offer.title;
-  element.style.left = pinsArray.location.x + offsetX + 'px';
-  element.style.top = pinsArray.location.y + offsetY + 'px';
+  element.querySelector('img').src = pin.author.avatar;
+  element.querySelector('img').alt = pin.offer.title;
+  element.style.left = pin.location.x + offsetX + 'px';
+  element.style.top = pin.location.y + offsetY + 'px';
 
   const openPopupMouse = (evt) => {
     if (evt.which === 1) {
-      renderCard(pinsArray);
+      renderCard(pin);
     }
   };
   const openPopupEnter = (evt) => {
     if (evt.keyCode === 13) {
-      renderCard(pinsArray);
+      renderCard(pin);
     }
   };
 
@@ -173,19 +171,19 @@ function renderPhotosPopup(element, incomingData) {
   });
 }
 
-const createPopup = (pinsArray) => {
+const createPopup = (popup) => {
   const popupElement = card.cloneNode(true);
 
-  renderPhotosPopup(popupElement.querySelector('.popup__photos'), pinsArray.offer.photos);
-  renderFeaturesPopup(popupElement.querySelector('.popup__features'), pinsArray.offer.features);
-  createElementPopup(popupElement.querySelector('.popup__description'), pinsArray.offer.description);
-  createElementPopup(popupElement.querySelector('.popup__text--capacity'), `${pinsArray.offer.rooms} комнаты для ${pinsArray.offer.guests} гостей`);
-  createElementPopup(popupElement.querySelector('.popup__text--time'), `Заезд после ${pinsArray.offer.checkin}, выезд до ${pinsArray.offer.checkout}`);
-  createElementPopup(popupElement.querySelector('.popup__type'), houseTypes[pinsArray.offer.type]);
-  createElementPopup(popupElement.querySelector('.popup__text--price'), `${pinsArray.offer.price}₽/ночь`);
-  createElementPopup(popupElement.querySelector('.popup__text--address'), pinsArray.offer.address);
-  createElementPopup(popupElement.querySelector('.popup__title'), pinsArray.offer.title);
-  createAvatarPopup(popupElement.querySelector('.popup__avatar'), pinsArray.author.avatar);
+  renderPhotosPopup(popupElement.querySelector('.popup__photos'), popup.offer.photos);
+  renderFeaturesPopup(popupElement.querySelector('.popup__features'), popup.offer.features);
+  createElementPopup(popupElement.querySelector('.popup__description'), popup.offer.description);
+  createElementPopup(popupElement.querySelector('.popup__text--capacity'), `${popup.offer.rooms} комнаты для ${popup.offer.guests} гостей`);
+  createElementPopup(popupElement.querySelector('.popup__text--time'), `Заезд после ${popup.offer.checkin}, выезд до ${popup.offer.checkout}`);
+  createElementPopup(popupElement.querySelector('.popup__type'), houseTypes[popup.offer.type]);
+  createElementPopup(popupElement.querySelector('.popup__text--price'), `${popup.offer.price}₽/ночь`);
+  createElementPopup(popupElement.querySelector('.popup__text--address'), popup.offer.address);
+  createElementPopup(popupElement.querySelector('.popup__title'), popup.offer.title);
+  createAvatarPopup(popupElement.querySelector('.popup__avatar'), popup.author.avatar);
 
   const popupClose = popupElement.querySelector('.popup__close');
 
@@ -213,7 +211,7 @@ const renderPins = (pinsArray) => {
   });
 };
 
-const pinsArray = getPins(8);
+const popup = getPins(8);
 
 const setAtivationAndInactivation = (bool, filter, form) => {
   filter.forEach((element) => {
@@ -231,9 +229,8 @@ const activationMap = () => {
   mapElement.classList.remove('map--faded');
   addForm.classList.remove('ad-form--disabled');
   setAtivationAndInactivation(false, filterElements, formElements);
-  renderPins(pinsArray);
+  renderPins(popup);
   checkRoom(roomNumber.value);
-  checkTime(timeIn.value);
 };
 
 const createAddress = (coordinateX, coordinateY) => {
@@ -290,9 +287,9 @@ roomNumber.addEventListener('change', (evt) => {
 headingFormInput.addEventListener('input', () => {
   const valueLength = headingFormInput.value.length;
   if (valueLength < HEADING_MIN_LENGTH) {
-    headingFormInput.setCustomValidity('Еще ' + (HEADING_MIN_LENGTH - valueLength) + ' симв')
+    headingFormInput.setCustomValidity('Еще ' + (HEADING_MIN_LENGTH - valueLength) + ' симв');
   } else if (valueLength > HEADING_MAX_LENGTH) {
-    headingFormInput.setCustomValidity('Удалите лишние ' + (valueLength - HEADING_MAX_LENGTH) + ' симв')
+    headingFormInput.setCustomValidity('Удалите лишние ' + (valueLength - HEADING_MAX_LENGTH) + ' симв');
   } else {
     headingFormInput.setCustomValidity('');
   }
@@ -302,35 +299,20 @@ headingFormInput.addEventListener('input', () => {
 
 // Валидация въезда и выезда
 
-const checkinAndCheckout = {
-  '12:00': ['12:00'],
-  '13:00': ['13:00'],
-  '14:00': ['14:00']
+const onTimeInChange = () => {
+  timeOut.value = timeIn.value;
+};
+const onTimeOutChange = () => {
+  timeIn.value = timeOut.value;
 };
 
-const checkTime = (time) => {
-  timeOutOption.forEach((element) => {
-    element.disabled = true;
-  });
-
-  checkinAndCheckout[time].forEach((times) => {
-    timeOutOption.forEach((element) => {
-      if (element.value === times) {
-        element.disabled = false;
-        element.selected = true;
-      }
-    });
-  });
-};
-
-timeIn.addEventListener('change', (evt) => {
-  checkTime(evt.target.value);
-});
+timeIn.addEventListener('change', onTimeInChange);
+timeOut.addEventListener('change', onTimeOutChange);
 
 // Валидация цены
 
 const minPrice = {
-  bungalo: 0,
+  bungalow: 0,
   flat: 1000,
   house: 5000,
   palace: 10000
