@@ -19,15 +19,12 @@
     });
   };
 
-  setAtivationAndInactivation(true, filterElements, formElements);
-
-
   const activationMap = () => {
     mapElement.classList.remove('map--faded');
     addForm.classList.remove('ad-form--disabled');
     setAtivationAndInactivation(false, filterElements, formElements);
     window.pin.renderPins(popup);
-    window.form.room(roomNumber.value);
+    window.form.checkRoom(roomNumber.value);
     window.form.createAddress(570, 375);
   };
   const popup = window.data.getPins(8);
@@ -44,4 +41,6 @@
 
   mapPinMain.addEventListener('mousedown', onPinMouseDown);
   mapPinMain.addEventListener('keydown', onPinKeyDown);
+
+  setAtivationAndInactivation(true, filterElements, formElements);
 })();

@@ -12,13 +12,12 @@
   const timeOut = document.querySelector('#timeout');
   const priceInput = addForm.querySelector('#price');
 
-  const MAIN_PIN_WIDTH = 65;
-  const MAIN_PIN_HEIGHT = 65;
+
   const HEADING_MIN_LENGTH = 30;
   const HEADING_MAX_LENGTH = 100;
 
   const createAddress = (coordinateX, coordinateY) => {
-    addressForm.value = `${Math.round(coordinateX + MAIN_PIN_WIDTH / 2)}, ${Math.round(coordinateY + MAIN_PIN_HEIGHT / 2)}`;
+    addressForm.value = `${Math.round(coordinateX + window.pin.mainPin.MAIN_PIN_WIDTH / 2)}, ${Math.round(coordinateY + window.pin.mainPin.MAIN_PIN_HEIGHT / 2)}`;
   };
 
   const roomValues = {
@@ -91,9 +90,6 @@
     typeHouse(evt.target.value);
   });
 
-  window.form = {
-    createAddress: createAddress,
-    room: checkRoom
-  };
+  window.form = {createAddress, checkRoom};
 
 })();

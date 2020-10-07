@@ -40,13 +40,6 @@
     return randomElement;
   };
 
-  window.util = {
-    clickOnEsc: clickOnEsc,
-    clickOnEnter: clickOnEnter,
-    clickOnMouse: clickOnMouse,
-    getRandomInt: getRandomInt,
-    getRandomArray: getRandomArray,
-    getRandomElement: getRandomElement
-  };
+  window.util = {clickOnEsc, clickOnEnter, clickOnMouse, getRandomInt, getRandomArray, getRandomElement};
 
 })();

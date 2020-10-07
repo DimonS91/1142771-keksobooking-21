@@ -102,7 +102,5 @@
     mapElement.appendChild(createPopup(data));
   };
 
-  window.card = {
-    card: renderCard
-  };
+  window.card = {renderCard};
 })();

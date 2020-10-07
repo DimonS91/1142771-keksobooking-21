@@ -4,19 +4,24 @@
   const mapPin = document.querySelector('#pin').content.querySelector('.map__pin');
   const mapPins = document.querySelector('.map__pins');
 
-  const offsetX = 25;
-  const offsetY = 35;
+  const OFFSET_X = 25;
+  const OFFSET_Y = 35;
+
+  const mainPin = {
+    MAIN_PIN_WIDTH: 65,
+    MAIN_PIN_HEIGHT: 65
+  };
 
   const createPin = (pin) => {
     const element = mapPin.cloneNode(true);
 
     element.querySelector('img').src = pin.author.avatar;
     element.querySelector('img').alt = pin.offer.title;
-    element.style.left = pin.location.x + offsetX + 'px';
-    element.style.top = pin.location.y + offsetY + 'px';
+    element.style.left = pin.location.x + OFFSET_X + 'px';
+    element.style.top = pin.location.y + OFFSET_Y + 'px';
 
     const showPopup = () => {
-      window.card.card(pin);
+      window.card.renderCard(pin);
     };
 
     const openPopupMouse = (evt) => {
@@ -38,9 +43,7 @@
     });
   };
 
-  window.pin = {
-    renderPins: renderPins
-  };
+  window.pin = {renderPins, mainPin};
 
 })();
 

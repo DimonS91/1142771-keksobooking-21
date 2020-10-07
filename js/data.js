@@ -1,9 +1,6 @@
 'use strict';
 
 (() => {
-  const housePriceField = document.querySelector('#housing-price');
-  housePriceField.classList.remove('hidden');
-
   const OBJECT_TITLES = ['Большая квартира', 'Шикарный петхаус', 'Гостевой дом', 'Коттедж для большой семьи', 'Номер в мотеле'];
   const OBJECT_TYPES = ['palace', 'flat', 'house', 'bungalow'];
   const CHECK_TIMES = ['12:00', '13:00', '14:00'];
@@ -40,8 +37,6 @@
     }
     return array;
   };
-  window.data = {
-    getPins: getPins
-  };
+  window.data = {getPins};
 
 })();
