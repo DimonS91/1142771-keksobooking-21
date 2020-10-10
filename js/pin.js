@@ -9,8 +9,14 @@
 
   const mainPin = {
     MAIN_PIN_WIDTH: 65,
-    MAIN_PIN_HEIGHT: 65
+    MAIN_PIN_HEIGHT: 65,
+    PIN_TAIL: 18
   };
+
+  const positionPinDefault = {
+    x: 570,
+    y: 375
+  }
 
   const createPin = (pin) => {
     const element = mapPin.cloneNode(true);
@@ -43,7 +49,7 @@
     });
   };
 
-  window.pin = {renderPins, mainPin};
+  window.pin = {renderPins, mainPin, positionPinDefault};
 
 })();
 
