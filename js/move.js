@@ -4,15 +4,12 @@
   const mapPinMain = document.querySelector('.map__pin--main');
   const mapElement = document.querySelector('.map');
 
-  const offset = {
-    top: 130,
-    bottom: 120
-  };
+  const PIN_TAIL = 18;
 
-  const limits = {
-    top: mapElement.offsetTop + offset.top,
-    right: mapElement.offsetWidth - mapPinMain.offsetWidth,
-    bottom: mapElement.offsetHeight - offset.bottom,
+  const mapLimits = {
+    top: 130,
+    right: 1200,
+    bottom: 630,
     left: 0
   };
 
@@ -23,6 +20,7 @@
       x: evt.clientX,
       y: evt.clientY
     };
+
 
     const onMouseMove = (moveEvt) => {
       moveEvt.preventDefault();
@@ -42,18 +40,38 @@
         y: mapPinMain.offsetTop - shift.y
       };
 
-      if (newLocation.x < limits.left) {
-        newLocation.x = limits.left;
-      } else if (newLocation.x >= limits.right) {
-        newLocation.x = limits.right;
-      } else if (newLocation.y < limits.top) {
-        newLocation.y = limits.top;
-      } else if (newLocation.y >= limits.bottom) {
-        newLocation.y = limits.bottom;
-      }
+      const movingLimits = {
+        top: mapLimits.top - PIN_TAIL,
+        right: mapLimits.right - mapPinMain.offsetWidth / 2,
+        bottom: mapLimits.bottom - PIN_TAIL,
+        left: mapLimits.left - mapPinMain.offsetWidth / 2
+      };
+
+
+      const positionPin = (coords) => {
+        if (coords.x <= movingLimits.left) {
+          coords.x = movingLimits.left;
+        }
+        if (coords.x >= movingLimits.right) {
+          coords.x = movingLimits.right;
+        }
+        if (coords.y <= movingLimits.top) {
+          coords.y = movingLimits.top;
+        }
+        if (coords.y >= movingLimits.bottom) {
+          coords.y = movingLimits.bottom;
+        }
+      };
+      positionPin(newLocation);
 
       mapPinMain.style.left = newLocation.x + 'px';
       mapPinMain.style.top = newLocation.y + 'px';
+
+
+      window.form.createAddress(newLocation);
+
+      // mapPinMain.style.left = newLocation.x + 'px';
+      // mapPinMain.style.top = newLocation.y + 'px';
     };
 
 
@@ -66,6 +84,5 @@
 
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
-
   });
 })();

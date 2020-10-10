@@ -9,7 +9,8 @@
 
   const mainPin = {
     MAIN_PIN_WIDTH: 65,
-    MAIN_PIN_HEIGHT: 65
+    MAIN_PIN_HEIGHT: 65,
+    PIN_TAIL: 18
   };
 
   const createPin = (pin) => {

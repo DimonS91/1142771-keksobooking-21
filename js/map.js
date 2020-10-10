@@ -25,7 +25,7 @@
     setAtivationAndInactivation(false, filterElements, formElements);
     window.pin.renderPins(popup);
     window.form.checkRoom(roomNumber.value);
-    window.form.createAddress(570, 375);
+    window.form.createAddress();
   };
   const popup = window.data.getPins(8);
 
