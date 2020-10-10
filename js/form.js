@@ -17,7 +17,7 @@
   const HEADING_MAX_LENGTH = 100;
 
   const createAddress = (coord) => {
-    addressForm.value = `${Math.ceil(coord.x + window.pin.mainPin.MAIN_PIN_WIDTH / 2)}, ${Math.ceil(coord.y + window.pin.mainPin.PIN_TAIL)}`;
+    addressForm.value = `${Math.ceil(coord.x + window.pin.mainPin.MAIN_PIN_WIDTH / 2)}, ${Math.ceil(coord.y + window.pin.mainPin.MAIN_PIN_HEIGHT / 2 + window.pin.mainPin.PIN_TAIL)}`;
   };
 
   const roomValues = {
