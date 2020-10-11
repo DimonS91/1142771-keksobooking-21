@@ -80,6 +80,7 @@
       popupElement.remove();
     };
 
+
     const hidePopupMouse = (evt) => {
       window.util.clickOnMouse(evt, removePopup);
     };

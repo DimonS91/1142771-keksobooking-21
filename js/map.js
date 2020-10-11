@@ -23,11 +23,12 @@
     mapElement.classList.remove('map--faded');
     addForm.classList.remove('ad-form--disabled');
     setAtivationAndInactivation(false, filterElements, formElements);
-    window.pin.renderPins(popup);
+    // window.pin.renderPins(popup);
+    window.load(window.pin.onSuccess, () => {});
     window.form.checkRoom(roomNumber.value);
-    window.form.createAddress(window.pin.positionPinDefault);
+    window.form.createAddress(window.pin.positionPinDefault, true);
   };
-  const popup = window.data.getPins(8);
+  // const popup = window.data.getPins(8);
 
   const onPinMouseDown = (evt) => {
     window.util.clickOnMouse(evt, activationMap);

@@ -41,9 +41,9 @@
       };
 
       const movingLimits = {
-        top: mapLimits.top - PIN_TAIL,
+        top: mapLimits.top - mapPinMain.offsetHeight - PIN_TAIL,
         right: mapLimits.right - mapPinMain.offsetWidth / 2,
-        bottom: mapLimits.bottom - PIN_TAIL,
+        bottom: mapLimits.bottom - mapPinMain.offsetHeight - PIN_TAIL,
         left: mapLimits.left - mapPinMain.offsetWidth / 2
       };
 
@@ -68,7 +68,7 @@
       mapPinMain.style.top = newLocation.y + 'px';
 
 
-      window.form.createAddress(newLocation);
+      window.form.createAddress(newLocation, true);
 
       // mapPinMain.style.left = newLocation.x + 'px';
       // mapPinMain.style.top = newLocation.y + 'px';
