@@ -16,9 +16,15 @@
   const HEADING_MIN_LENGTH = 30;
   const HEADING_MAX_LENGTH = 100;
 
-  const createAddress = (coord) => {
-    addressForm.value = `${Math.ceil(coord.x + window.pin.mainPin.MAIN_PIN_WIDTH / 2)}, ${Math.ceil(coord.y + window.pin.mainPin.MAIN_PIN_HEIGHT / 2 + window.pin.mainPin.PIN_TAIL)}`;
+  const createAddress = (coord, bool) => {
+    if (bool) {
+      addressForm.value = `${Math.ceil(coord.x + window.pin.mainPin.MAIN_PIN_WIDTH / 2)}, ${Math.ceil(coord.y + window.pin.mainPin.MAIN_PIN_HEIGHT + window.pin.mainPin.PIN_TAIL)}`;
+    } else {
+      addressForm.value = `${Math.ceil(570 + window.pin.mainPin.MAIN_PIN_WIDTH / 2)}, ${Math.ceil(375 + window.pin.mainPin.MAIN_PIN_HEIGHT / 2)}`;
+    }
   };
+
+  createAddress(false);
 
   const roomValues = {
     1: [1],
