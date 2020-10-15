@@ -24,8 +24,17 @@
     addForm.classList.remove('ad-form--disabled');
     setAtivationAndInactivation(false, filterElements, formElements);
     // window.pin.renderPins(popup);
-    window.load(window.pin.onSuccess, () => {});
+    window.load(window.pin.renderPins, () => {});
     window.form.checkRoom(roomNumber.value);
+    window.form.createAddress(window.pin.positionPinDefault, true);
+  };
+
+  const deactivationMap = () => {
+    mapElement.classList.add('map--faded');
+    addForm.classList.add('ad-form--disabled');
+    setAtivationAndInactivation(true, filterElements, formElements);
+    mapPinMain.style.top = window.pin.positionPinDefault.y + 'px';
+    mapPinMain.style.left = window.pin.positionPinDefault.x + 'px';
     window.form.createAddress(window.pin.positionPinDefault, true);
   };
   // const popup = window.data.getPins(8);
@@ -44,4 +53,6 @@
   mapPinMain.addEventListener('keydown', onPinKeyDown);
 
   setAtivationAndInactivation(true, filterElements, formElements);
+
+  window.map = {deactivationMap};
 })();

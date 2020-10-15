@@ -12,7 +12,6 @@
   const timeOut = document.querySelector('#timeout');
   const priceInput = addForm.querySelector('#price');
 
-
   const HEADING_MIN_LENGTH = 30;
   const HEADING_MAX_LENGTH = 100;
 
@@ -95,6 +94,60 @@
   typeHouseSelect.addEventListener('change', (evt) => {
     typeHouse(evt.target.value);
   });
+
+  const showErrorMessage = () => {
+    const message = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
+    document.body.insertAdjacentElement('afterbegin', message);
+    hideMessageError();
+  };
+
+  const hideMessageError = () => {
+    const messageError = document.querySelector('.error');
+    const errorBtn = document.querySelector('.error__button');
+    const hideMessage = () => {
+      messageError.classList.add('hidden');
+    };
+    const hideMessageErrorEsc = (evt) => {
+      window.util.clickOnEsc(evt, hideMessage);
+    };
+    const hideMessageErrorMouse = (evt) => {
+      window.util.clickOnMouse(evt, hideMessage);
+    };
+    window.addEventListener('keydown', hideMessageErrorEsc);
+    errorBtn.addEventListener('click', hideMessageErrorMouse);
+    window.addEventListener('click', hideMessageErrorMouse);
+  };
+
+  const showSuccessMessage = () => {
+    const message = document.querySelector('#success').content.querySelector('.success').cloneNode(true);
+    document.body.insertAdjacentElement('afterbegin', message);
+    hideMessageSuccess();
+    addForm.reset();
+    window.map.deactivationMap();
+    window.pin.removePins();
+  };
+
+  const hideMessageSuccess = () => {
+    const messageSuccess = document.querySelector('.success');
+    const hideMessage = () => {
+      messageSuccess.classList.add('hidden');
+    };
+    const hideMessageSuccessEsc = (evt) => {
+      window.util.clickOnEsc(evt, hideMessage);
+    };
+    const hideMessageSuccessMouse = (evt) => {
+      window.util.clickOnMouse(evt, hideMessage);
+    };
+    window.addEventListener('keydown', hideMessageSuccessEsc);
+    window.addEventListener('click', hideMessageSuccessMouse);
+  };
+
+  const submitHandler = (evt) => {
+    window.upload(new FormData(addForm), showSuccessMessage, showErrorMessage);
+    evt.preventDefault();
+  };
+
+  addForm.addEventListener('submit', submitHandler);
 
   window.form = {createAddress, checkRoom};
 

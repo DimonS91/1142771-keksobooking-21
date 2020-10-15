@@ -46,18 +46,21 @@
     return element;
   };
 
-  // const renderPins = (pinsArray) => {
-  //   pinsArray.forEach((pin) => {
-  //     mapPins.appendChild(createPin(pin));
-  //   });
-  // };
-  const onSuccess = (pinsArray) => {
+  const renderPins = (pinsArray) => {
     pinsArray.forEach((pin) => {
       mapPins.appendChild(createPin(pin));
     });
   };
 
-  window.pin = {onSuccess, mainPin, positionPinDefault};
+  const removePins = () => {
+    const mapPinAll = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    mapPinAll.forEach((pin) => {
+      pin.remove();
+    });
+  };
+
+
+  window.pin = {renderPins, removePins, mainPin, positionPinDefault};
 
 })();
 
