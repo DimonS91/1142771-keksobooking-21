@@ -1,7 +1,7 @@
 'use strict';
 
 (() => {
-  const URL = 'https://21.javascript.pages.academy/keksobooking';
+  const URL = `https://21.javascript.pages.academy/keksobooking`;
 
   const StatusCode = {
     OK: 200
@@ -10,26 +10,26 @@
 
   window.upload = (data, onSuccess, onError) => {
     const xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
+    xhr.responseType = `json`;
 
 
-    xhr.addEventListener('load', () => {
+    xhr.addEventListener(`load`, () => {
       if (xhr.status === StatusCode.OK) {
         onSuccess(xhr.response);
       } else {
-        onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
+        onError(`Статус ответа: ` + xhr.status + ` ` + xhr.statusText);
       }
     });
-    xhr.addEventListener('error', () => {
-      onError('Произошла ошибка соединения');
+    xhr.addEventListener(`error`, () => {
+      onError(`Произошла ошибка соединения`);
     });
-    xhr.addEventListener('timeout', () => {
-      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+    xhr.addEventListener(`timeout`, () => {
+      onError(`Запрос не успел выполниться за ` + xhr.timeout + `мс`);
     });
 
     xhr.timeout = TIMEOUT_IN_MS;
 
-    xhr.open('POST', URL);
+    xhr.open(`POST`, URL);
     xhr.send(data);
   };
 
