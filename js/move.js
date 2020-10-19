@@ -1,8 +1,7 @@
 'use strict';
 
 (() => {
-  const mapPinMain = document.querySelector('.map__pin--main');
-  const mapElement = document.querySelector('.map');
+  const mapPinMain = document.querySelector(`.map__pin--main`);
 
   const PIN_TAIL = 18;
 
@@ -13,7 +12,7 @@
     left: 0
   };
 
-  mapPinMain.addEventListener('mousedown', (evt) => {
+  mapPinMain.addEventListener(`mousedown`, (evt) => {
     evt.preventDefault();
 
     let startCoords = {
@@ -64,25 +63,21 @@
       };
       positionPin(newLocation);
 
-      mapPinMain.style.left = newLocation.x + 'px';
-      mapPinMain.style.top = newLocation.y + 'px';
+      mapPinMain.style.left = newLocation.x + `px`;
+      mapPinMain.style.top = newLocation.y + `px`;
 
 
       window.form.createAddress(newLocation, true);
-
-      // mapPinMain.style.left = newLocation.x + 'px';
-      // mapPinMain.style.top = newLocation.y + 'px';
     };
-
 
     const onMouseUp = (upEvt) => {
       upEvt.preventDefault();
 
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener(`mousemove`, onMouseMove);
+      document.removeEventListener(`mouseup`, onMouseUp);
     };
 
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+    document.addEventListener(`mousemove`, onMouseMove);
+    document.addEventListener(`mouseup`, onMouseUp);
   });
 })();

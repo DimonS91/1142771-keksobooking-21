@@ -1,14 +1,14 @@
 'use strict';
 
 (() => {
-  const URL = `https://21.javascript.pages.academy/keksobooking/data`;
+  const URL = `https://21.javascript.pages.academy/keksobooking`;
 
   const StatusCode = {
     OK: 200
   };
   const TIMEOUT_IN_MS = 1000;
 
-  window.load = (onSuccess, onError) => {
+  window.upload = (data, onSuccess, onError) => {
     const xhr = new XMLHttpRequest();
     xhr.responseType = `json`;
 
@@ -29,8 +29,10 @@
 
     xhr.timeout = TIMEOUT_IN_MS;
 
-    xhr.open(`GET`, URL);
-    xhr.send();
+    xhr.open(`POST`, URL);
+    xhr.send(data);
   };
 
 })();
+
+

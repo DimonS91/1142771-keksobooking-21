@@ -1,17 +1,16 @@
 'use strict';
 
 (() => {
-  const addressForm = document.querySelector('#address');
-  const capacity = document.querySelector('#capacity');
-  const capacityOptions = capacity.querySelectorAll('option');
-  const roomNumber = document.querySelector('#room_number');
-  const addForm = document.querySelector('.ad-form');
-  const headingFormInput = addForm.querySelector('#title');
-  const typeHouseSelect = addForm.querySelector('#type');
-  const timeIn = document.querySelector('#timein');
-  const timeOut = document.querySelector('#timeout');
-  const priceInput = addForm.querySelector('#price');
-
+  const addressForm = document.querySelector(`#address`);
+  const capacity = document.querySelector(`#capacity`);
+  const capacityOptions = capacity.querySelectorAll(`option`);
+  const roomNumber = document.querySelector(`#room_number`);
+  const addForm = document.querySelector(`.ad-form`);
+  const headingFormInput = addForm.querySelector(`#title`);
+  const typeHouseSelect = addForm.querySelector(`#type`);
+  const timeIn = document.querySelector(`#timein`);
+  const timeOut = document.querySelector(`#timeout`);
+  const priceInput = addForm.querySelector(`#price`);
 
   const HEADING_MIN_LENGTH = 30;
   const HEADING_MAX_LENGTH = 100;
@@ -48,20 +47,20 @@
     });
   };
 
-  roomNumber.addEventListener('change', (evt) => {
+  roomNumber.addEventListener(`change`, (evt) => {
     checkRoom(evt.target.value);
   });
 
   // Валидация заголовка
 
-  headingFormInput.addEventListener('input', () => {
+  headingFormInput.addEventListener(`input`, () => {
     const valueLength = headingFormInput.value.length;
     if (valueLength < HEADING_MIN_LENGTH) {
-      headingFormInput.setCustomValidity('Еще ' + (HEADING_MIN_LENGTH - valueLength) + ' симв');
+      headingFormInput.setCustomValidity(`Еще ` + (HEADING_MIN_LENGTH - valueLength) + ` симв`);
     } else if (valueLength > HEADING_MAX_LENGTH) {
-      headingFormInput.setCustomValidity('Удалите лишние ' + (valueLength - HEADING_MAX_LENGTH) + ' симв');
+      headingFormInput.setCustomValidity(`Удалите лишние ` + (valueLength - HEADING_MAX_LENGTH) + ` симв`);
     } else {
-      headingFormInput.setCustomValidity('');
+      headingFormInput.setCustomValidity(``);
     }
 
     headingFormInput.reportValidity();
@@ -76,8 +75,8 @@
     timeIn.value = timeOut.value;
   };
 
-  timeIn.addEventListener('change', onTimeInChange);
-  timeOut.addEventListener('change', onTimeOutChange);
+  timeIn.addEventListener(`change`, onTimeInChange);
+  timeOut.addEventListener(`change`, onTimeOutChange);
 
   // Валидация цены
 
@@ -89,13 +88,74 @@
   };
 
   const typeHouse = (type) => {
-    priceInput.setAttribute('min', minPrice[type]);
-    priceInput.setAttribute('placeholder', minPrice[type]);
+    priceInput.setAttribute(`min`, minPrice[type]);
+    priceInput.setAttribute(`placeholder`, minPrice[type]);
   };
-  typeHouseSelect.addEventListener('change', (evt) => {
+  typeHouseSelect.addEventListener(`change`, (evt) => {
     typeHouse(evt.target.value);
   });
 
-  window.form = {createAddress, checkRoom};
+  const messageErrorPopup = document.querySelector(`#error`).content.querySelector(`.error`);
+  const messageSuccessPopup = document.querySelector(`#success`).content.querySelector(`.success`);
+
+  const showErrorMessage = () => {
+    const message = messageErrorPopup.cloneNode(true);
+    document.body.insertAdjacentElement(`afterbegin`, message);
+    hideMessageError();
+  };
+
+  const showSuccessMessage = () => {
+    const message = messageSuccessPopup.cloneNode(true);
+    document.body.insertAdjacentElement(`afterbegin`, message);
+    hideMessageSuccess();
+    addForm.reset();
+    window.map.deactivationMap();
+    window.pin.removePins();
+  };
+
+  const hideMessageError = () => {
+    const messageError = document.querySelector(`.error`);
+    const errorBtn = document.querySelector(`.error__button`);
+
+    const hideMessageErrorEsc = (evt) => {
+      window.util.clickOnEsc(evt, () => {
+        messageError.remove();
+      });
+    };
+    const hideMessageErrorMouse = (evt) => {
+      window.util.clickOnMouse(evt, () => {
+        messageError.remove();
+      });
+    };
+    window.addEventListener(`keydown`, hideMessageErrorEsc);
+    errorBtn.addEventListener(`click`, hideMessageErrorMouse);
+    window.addEventListener(`click`, hideMessageErrorMouse);
+  };
+
+  const hideMessageSuccess = () => {
+    const messageSuccess = document.querySelector(`.success`);
+
+    const hideMessageSuccessEsc = (evt) => {
+      window.util.clickOnEsc(evt, () => {
+        messageSuccess.remove();
+      });
+
+    };
+    const hideMessageSuccessMouse = (evt) => {
+      window.util.clickOnMouse(evt, () => {});
+      messageSuccess.remove();
+    };
+    window.addEventListener(`keydown`, hideMessageSuccessEsc);
+    window.addEventListener(`click`, hideMessageSuccessMouse);
+  };
+
+  const submitHandler = (evt) => {
+    evt.preventDefault();
+    window.upload(new FormData(addForm), showSuccessMessage, showErrorMessage);
+  };
+
+  addForm.addEventListener(`submit`, submitHandler);
+
+  window.form = {createAddress, checkRoom, typeHouse};
 
 })();
