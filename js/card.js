@@ -103,5 +103,12 @@
     mapElement.appendChild(createPopup(data));
   };
 
-  window.card = {renderCard};
+  const removeCard = () => {
+    const mapPopup = document.querySelector(`.map__card`);
+    if (mapPopup) {
+      mapPopup.remove();
+    }
+  };
+
+  window.card = {renderCard, removeCard};
 })();
