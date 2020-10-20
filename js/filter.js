@@ -8,35 +8,36 @@
   const typeHouse = document.querySelector(`#housing-type`);
 
   let newData = [];
-  let filtData = [];
 
   const filtrationItem = (elem, item, key) => {
-    if (elem.value === `any`) {
-      return true;
-    }
-    return elem.value === item[key];
+    return elem.value === `any` ? true : elem.value === item[key];
   };
 
   const filteringByType = (item) => {
     return filtrationItem(typeHouse, item.offer, `type`);
   };
 
-  const filterChange = () => {
-    filtData = newData.slice(0);
-    filtData = filtData.filter(filteringByType);
+  const applyData = (data) => {
+    return data.filter((elem) => {
+      return (
+        filteringByType(elem)
+      );
+    })
+    .slice(0, MAX_PIN);
+  };
+
+  const activateFilter = (data) => {
+    newData = data;
+    window.pin.renderPins(applyData(newData));
+  };
+
+
+  mapFilters.addEventListener(`change`, () => {
     window.card.removeCard();
     window.pin.removePins();
-    window.pin.renderPins(filtData.slice(0, MAX_PIN));
-  };
+    window.pin.renderPins(applyData(newData));
+  });
 
-  const activateFilter = () => {
-    filterChange();
-    mapFilters.addEventListener(`change`, filterChange);
-  };
-
-  const deactivateFilter = () => {
-    mapFilters.removeEventListener(`change`, filterChange);
-  };
 
   const resetFilter = () => {
     filterElements.forEach((elem) => {
@@ -44,12 +45,6 @@
     });
   };
 
-  const activateFiltration = (data) => {
-    newData = data.slice(0);
-    activateFilter();
-    return data.slice(0, MAX_PIN);
-  };
-
-  window.filter = {activateFiltration, deactivateFilter, resetFilter};
+  window.filter = {resetFilter, activateFilter};
 
 })();

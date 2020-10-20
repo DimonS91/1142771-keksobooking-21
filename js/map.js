@@ -21,8 +21,9 @@
   };
 
   const onLoadSuccess = (data) => {
-    window.filter.activateFiltration(data);
+    window.filter.activateFilter(data);
   };
+
 
   const activationMap = () => {
     mapElement.classList.remove(`map--faded`);

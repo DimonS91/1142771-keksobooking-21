@@ -9,6 +9,7 @@
   const TIMEOUT_IN_MS = 1000;
 
   window.load = (onSuccess, onError) => {
+
     const xhr = new XMLHttpRequest();
     xhr.responseType = `json`;
 
