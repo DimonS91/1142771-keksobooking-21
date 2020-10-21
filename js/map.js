@@ -20,11 +20,16 @@
     });
   };
 
+  const onLoadSuccess = (data) => {
+    window.filter.activateFilter(data);
+  };
+
+
   const activationMap = () => {
     mapElement.classList.remove(`map--faded`);
     addForm.classList.remove(`ad-form--disabled`);
     setAtivationAndInactivation(false, filterElements, formElements);
-    window.load(window.pin.renderPins, () => {});
+    window.load(onLoadSuccess, () => {});
     window.form.checkRoom(roomNumber.value);
     window.form.typeHouse(typeHouseSelect.value);
     window.form.createAddress(window.pin.positionPinDefault, true);
@@ -39,6 +44,7 @@
     window.form.createAddress(window.pin.positionPinDefault, true);
     mapPinMain.addEventListener(`mousedown`, onPinMouseDown);
     mapPinMain.addEventListener(`keydown`, onPinKeyDown);
+
   };
   // const popup = window.data.getPins(8);
 

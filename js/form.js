@@ -111,6 +111,8 @@
     addForm.reset();
     window.map.deactivationMap();
     window.pin.removePins();
+    window.card.removeCard();
+    window.filter.resetFilter();
   };
 
   const hideMessageError = () => {
