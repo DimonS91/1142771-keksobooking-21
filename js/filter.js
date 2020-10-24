@@ -3,27 +3,64 @@
 (() => {
   const MAX_PIN = 5;
 
+  const PRICE_RANGE = {
+    LOW: 10000,
+    HIGH: 50000
+  };
+
   const mapFilters = document.querySelector(`.map__filters`);
-  const filterElements = mapFilters.querySelectorAll(`select`);
+  const filterElements = mapFilters.querySelectorAll(`select, input`);
   const typeHouse = document.querySelector(`#housing-type`);
+  const price = document.querySelector(`#housing-price`);
+  const numberOfRoom = document.querySelector(`#housing-rooms`);
+  const numberOfGuest = document.querySelector(`#housing-guests`);
+  const featureItems = document.querySelector(`#housing-features`);
 
   let newData = [];
 
   const filtrationItem = (elem, item, key) => {
-    return elem.value === `any` ? true : elem.value === item[key];
+    return elem.value === `any` ? true : elem.value === item[key].toString();
   };
 
   const filteringByType = (item) => {
     return filtrationItem(typeHouse, item.offer, `type`);
   };
 
+  const filtrationByPrice = (elem) => {
+    if (price.value === `low`) {
+      return elem.offer.price < PRICE_RANGE.LOW;
+    } else if (price.value === `middle`) {
+      return elem.offer.price >= PRICE_RANGE.LOW && elem.offer.price <= PRICE_RANGE.HIGH;
+    } else if (price.value === `high`) {
+      return elem.offer.price >= PRICE_RANGE.HIGH;
+    } else {
+      return elem.offer.price > 0;
+    }
+  };
+
+  const filteringByRoom = (item) => {
+    return filtrationItem(numberOfRoom, item.offer, `rooms`);
+  };
+
+  const filteringByGuest = (item) => {
+    return filtrationItem(numberOfGuest, item.offer, `guests`);
+  };
+
+  const filteringByFeatures = (item) => {
+    const checkedFeaturesItems = featureItems.querySelectorAll(`input:checked`);
+    return Array.from(checkedFeaturesItems).every((elem) => {
+      return item.offer.features.includes(elem.value);
+    });
+  };
+
   const applyData = (data) => {
     return data.filter((elem) => {
       return (
-        filteringByType(elem)
+        filteringByType(elem) && filtrationByPrice(elem) &&
+        filteringByRoom(elem) && filteringByGuest(elem) && filteringByFeatures(elem)
       );
     })
-    .slice(0, MAX_PIN);
+      .slice(0, MAX_PIN);
   };
 
   const activateFilter = (data) => {
@@ -31,12 +68,11 @@
     window.pin.renderPins(applyData(newData));
   };
 
-
-  mapFilters.addEventListener(`change`, () => {
+  mapFilters.addEventListener(`change`, window.util.debounce(() => {
     window.card.removeCard();
     window.pin.removePins();
     window.pin.renderPins(applyData(newData));
-  });
+  }));
 
 
   const resetFilter = () => {

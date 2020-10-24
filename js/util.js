@@ -4,6 +4,7 @@
   const ESC_KEYCODE = 27;
   const ENTER_KEYCODE = 13;
   const CLICK_MOUSE = 1;
+  const DEBOUNCE_INTERVAL = 500;
 
   const clickOnEsc = (evt, action) => {
     if (evt.keyCode === ESC_KEYCODE) {
@@ -40,6 +41,18 @@
     return randomElement;
   };
 
-  window.util = {clickOnEsc, clickOnEnter, clickOnMouse, getRandomInt, getRandomArray, getRandomElement};
+  const debounce = (cb) => {
+    let lastTimeout = null;
+    return (...parameters) => {
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
+      }
+      lastTimeout = window.setTimeout(() => {
+        cb(...parameters);
+      }, DEBOUNCE_INTERVAL);
+    };
+  };
+
+  window.util = {clickOnEsc, clickOnEnter, clickOnMouse, getRandomInt, getRandomArray, getRandomElement, debounce};
 
 })();
