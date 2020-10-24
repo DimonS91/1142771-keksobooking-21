@@ -190,11 +190,13 @@
 
         reader.addEventListener(`load`, () => {
           renderPreviewPhoto(reader, param2);
-
         });
 
         reader.readAsDataURL(file);
       }
+      param1.addEventListener(`change`, () =>{
+        deletePreviewPhoto();
+      });
     };
   };
 
