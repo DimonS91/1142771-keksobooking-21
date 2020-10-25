@@ -6,6 +6,7 @@
   const capacityOptions = capacity.querySelectorAll(`option`);
   const roomNumber = document.querySelector(`#room_number`);
   const addForm = document.querySelector(`.ad-form`);
+  const addFormReset = addForm.querySelector(`.ad-form__reset`);
   const headingFormInput = addForm.querySelector(`#title`);
   const typeHouseSelect = addForm.querySelector(`#type`);
   const timeIn = document.querySelector(`#timein`);
@@ -210,6 +211,14 @@
   avatarChooser.addEventListener(`change`, createPreviewPhoto(avatarChooser, avatarPreview));
   imageChooser.addEventListener(`change`, createPreviewPhoto(imageChooser, photoPreview));
   addForm.addEventListener(`submit`, submitHandler);
+  addFormReset.addEventListener(`click`, () => {
+    addForm.reset();
+    window.map.deactivationMap();
+    window.pin.removePins();
+    window.card.removeCard();
+    window.filter.resetFilter();
+    deletePreviewPhoto();
+  });
 
   window.form = {createAddress, checkRoom, typeHouse};
 
