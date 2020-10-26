@@ -53,4 +53,4 @@ const debounce = (cb) => {
   };
 };
 
-window.util = { clickOnEsc, clickOnEnter, clickOnMouse, getRandomInt, getRandomArray, getRandomElement, debounce };
+window.util = {clickOnEsc, clickOnEnter, clickOnMouse, getRandomInt, getRandomArray, getRandomElement, debounce};

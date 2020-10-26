@@ -59,4 +59,4 @@ const removePins = () => {
   });
 };
 
-window.pin = { renderPins, removePins, mainPin, positionPinDefault };
+window.pin = {renderPins, removePins, mainPin, positionPinDefault};

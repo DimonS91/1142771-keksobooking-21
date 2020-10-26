@@ -110,4 +110,4 @@ const removeCard = () => {
   }
 };
 
-window.card = { renderCard, removeCard };
+window.card = {renderCard, removeCard};

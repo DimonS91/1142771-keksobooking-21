@@ -63,4 +63,4 @@ mapPinMain.addEventListener(`keydown`, onPinKeyDown);
 
 setAtivationAndInactivation(true, filterElements, formElements);
 
-window.map = { deactivationMap };
+window.map = {deactivationMap};

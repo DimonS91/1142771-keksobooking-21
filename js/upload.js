@@ -1,7 +1,7 @@
 'use strict';
 
 
-const URL = `https://21.javascript.pages.academy/keksobooking`;
+const url = `https://21.javascript.pages.academy/keksobooking`;
 
 
 const StatusCode = {
@@ -30,6 +30,6 @@ window.upload = (data, onSuccess, onError) => {
 
   xhr.timeout = TIMEOUT_IN_MS;
 
-  xhr.open(`POST`, URL);
+  xhr.open(`POST`, url);
   xhr.send(data);
 };
