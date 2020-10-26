@@ -10,11 +10,11 @@
 
   const mapFilters = document.querySelector(`.map__filters`);
   const filterElements = mapFilters.querySelectorAll(`select, input`);
-  const typeHouse = document.querySelector(`#housing-type`);
-  const price = document.querySelector(`#housing-price`);
-  const numberOfRoom = document.querySelector(`#housing-rooms`);
-  const numberOfGuest = document.querySelector(`#housing-guests`);
-  const featureItems = document.querySelector(`#housing-features`);
+  const typeHouseFilterElements = document.querySelector(`#housing-type`);
+  const priceFilterElements = document.querySelector(`#housing-price`);
+  const roomFilterElements = document.querySelector(`#housing-rooms`);
+  const guestFilterElements = document.querySelector(`#housing-guests`);
+  const featureFilterElements = document.querySelector(`#housing-features`);
 
   let newData = [];
 
@@ -23,15 +23,15 @@
   };
 
   const filteringByType = (item) => {
-    return filtrationItem(typeHouse, item.offer, `type`);
+    return filtrationItem(typeHouseFilterElements, item.offer, `type`);
   };
 
   const filtrationByPrice = (elem) => {
-    if (price.value === `low`) {
+    if (priceFilterElements.value === `low`) {
       return elem.offer.price < PRICE_RANGE.LOW;
-    } else if (price.value === `middle`) {
+    } else if (priceFilterElements.value === `middle`) {
       return elem.offer.price >= PRICE_RANGE.LOW && elem.offer.price <= PRICE_RANGE.HIGH;
-    } else if (price.value === `high`) {
+    } else if (priceFilterElements.value === `high`) {
       return elem.offer.price >= PRICE_RANGE.HIGH;
     } else {
       return elem.offer.price > 0;
@@ -39,15 +39,15 @@
   };
 
   const filteringByRoom = (item) => {
-    return filtrationItem(numberOfRoom, item.offer, `rooms`);
+    return filtrationItem(roomFilterElements, item.offer, `rooms`);
   };
 
   const filteringByGuest = (item) => {
-    return filtrationItem(numberOfGuest, item.offer, `guests`);
+    return filtrationItem(guestFilterElements, item.offer, `guests`);
   };
 
   const filteringByFeatures = (item) => {
-    const checkedFeaturesItems = featureItems.querySelectorAll(`input:checked`);
+    const checkedFeaturesItems = featureFilterElements.querySelectorAll(`input:checked`);
     return Array.from(checkedFeaturesItems).every((elem) => {
       return item.offer.features.includes(elem.value);
     });

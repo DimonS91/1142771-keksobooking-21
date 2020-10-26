@@ -6,6 +6,7 @@
   const capacityOptions = capacity.querySelectorAll(`option`);
   const roomNumber = document.querySelector(`#room_number`);
   const addForm = document.querySelector(`.ad-form`);
+  const addFormReset = addForm.querySelector(`.ad-form__reset`);
   const headingFormInput = addForm.querySelector(`#title`);
   const typeHouseSelect = addForm.querySelector(`#type`);
   const timeIn = document.querySelector(`#timein`);
@@ -14,6 +15,12 @@
 
   const HEADING_MIN_LENGTH = 30;
   const HEADING_MAX_LENGTH = 100;
+
+  const FILE_TYPES = [`gif`, `jpg`, `jpeg`, `png`];
+  const avatarPreview = document.querySelector(`.ad-form-header__preview`);
+  const avatarChooser = document.querySelector(`#avatar`);
+  const imageChooser = document.querySelector(`#images`);
+  const photoPreview = document.querySelector(`.ad-form__photo`);
 
   const createAddress = (coord, bool) => {
     if (bool) {
@@ -113,6 +120,7 @@
     window.pin.removePins();
     window.card.removeCard();
     window.filter.resetFilter();
+    deletePreviewPhoto();
   };
 
   const hideMessageError = () => {
@@ -144,7 +152,7 @@
 
     };
     const hideMessageSuccessMouse = (evt) => {
-      window.util.clickOnMouse(evt, () => {});
+      window.util.clickOnMouse(evt, () => { });
       messageSuccess.remove();
     };
     window.addEventListener(`keydown`, hideMessageSuccessEsc);
@@ -156,7 +164,61 @@
     window.upload(new FormData(addForm), showSuccessMessage, showErrorMessage);
   };
 
+  const renderPreviewPhoto = (reader, box) => {
+    const photo = document.createElement(`img`);
+    photo.classList.add(`photo-preview`);
+    photo.src = reader.result;
+    photo.style.width = `70px`;
+    photo.style.height = `70px`;
+    photo.style.borderRadius = `5px`;
+    box.style.position = `relative`;
+    photo.style.position = `absolute`;
+    photo.style.left = `0`;
+    box.appendChild(photo);
+  };
+
+  const createPreviewPhoto = (param1, param2) => {
+    return () => {
+      const file = param1.files[0];
+      const fileName = file.name.toLowerCase();
+
+      const matches = FILE_TYPES.some((it) => {
+        return fileName.endsWith(it);
+      });
+
+      if (matches) {
+        const reader = new FileReader();
+
+        reader.addEventListener(`load`, () => {
+          renderPreviewPhoto(reader, param2);
+        });
+
+        reader.readAsDataURL(file);
+      }
+      param1.addEventListener(`change`, () =>{
+        deletePreviewPhoto();
+      });
+    };
+  };
+
+  const deletePreviewPhoto = () => {
+    const removeImage = document.querySelectorAll(`.photo-preview`);
+    removeImage.forEach((img) => {
+      img.remove();
+    });
+  };
+
+  avatarChooser.addEventListener(`change`, createPreviewPhoto(avatarChooser, avatarPreview));
+  imageChooser.addEventListener(`change`, createPreviewPhoto(imageChooser, photoPreview));
   addForm.addEventListener(`submit`, submitHandler);
+  addFormReset.addEventListener(`click`, () => {
+    addForm.reset();
+    window.map.deactivationMap();
+    window.pin.removePins();
+    window.card.removeCard();
+    window.filter.resetFilter();
+    deletePreviewPhoto();
+  });
 
   window.form = {createAddress, checkRoom, typeHouse};
 
