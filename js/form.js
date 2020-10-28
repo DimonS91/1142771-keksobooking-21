@@ -58,8 +58,6 @@ roomNumber.addEventListener(`change`, (evt) => {
   checkRoom(evt.target.value);
 });
 
-// Валидация заголовка
-
 headingFormInput.addEventListener(`input`, () => {
   const valueLength = headingFormInput.value.length;
   if (valueLength < HEADING_MIN_LENGTH) {
@@ -73,8 +71,6 @@ headingFormInput.addEventListener(`input`, () => {
   headingFormInput.reportValidity();
 });
 
-// Валидация въезда и выезда
-
 const onTimeInChange = () => {
   timeOut.value = timeIn.value;
 };
@@ -84,8 +80,6 @@ const onTimeOutChange = () => {
 
 timeIn.addEventListener(`change`, onTimeInChange);
 timeOut.addEventListener(`change`, onTimeOutChange);
-
-// Валидация цены
 
 const minPrice = {
   bungalow: 0,
@@ -104,16 +98,17 @@ typeHouseSelect.addEventListener(`change`, (evt) => {
 
 const messageErrorPopup = document.querySelector(`#error`).content.querySelector(`.error`);
 const messageSuccessPopup = document.querySelector(`#success`).content.querySelector(`.success`);
+const mainBody = document.querySelector(`main`);
 
 const showErrorMessage = () => {
   const message = messageErrorPopup.cloneNode(true);
-  document.body.insertAdjacentElement(`afterbegin`, message);
+  mainBody.appendChild(message);
   hideMessageError();
 };
 
 const showSuccessMessage = () => {
   const message = messageSuccessPopup.cloneNode(true);
-  document.body.insertAdjacentElement(`afterbegin`, message);
+  mainBody.appendChild(message);
   hideMessageSuccess();
   addForm.reset();
   window.map.deactivationMap();
@@ -220,4 +215,4 @@ addFormReset.addEventListener(`click`, () => {
   deletePreviewPhoto();
 });
 
-window.form = {createAddress, checkRoom, typeHouse};
+window.form = {createAddress, checkRoom, typeHouse, showErrorMessage};

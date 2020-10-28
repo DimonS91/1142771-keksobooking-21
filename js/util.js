@@ -24,23 +24,6 @@ const clickOnMouse = (evt, action) => {
   }
 };
 
-
-const getRandomInt = (min, max) => {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
-const getRandomArray = (arr) => {
-  const sortArray = arr.filter(() => Math.random() >= 0.5);
-  return sortArray;
-};
-
-const getRandomElement = (arr) => {
-  const randomElement = arr[Math.floor(Math.random() * arr.length)];
-  return randomElement;
-};
-
 const debounce = (cb) => {
   let lastTimeout = null;
   return (...parameters) => {
@@ -53,4 +36,4 @@ const debounce = (cb) => {
   };
 };
 
-window.util = {clickOnEsc, clickOnEnter, clickOnMouse, getRandomInt, getRandomArray, getRandomElement, debounce};
+window.util = {clickOnEsc, clickOnEnter, clickOnMouse, debounce};

@@ -29,7 +29,7 @@ const activationMap = () => {
   mapElement.classList.remove(`map--faded`);
   addForm.classList.remove(`ad-form--disabled`);
   setAtivationAndInactivation(false, filterElements, formElements);
-  window.load(onLoadSuccess, () => { });
+  window.load(onLoadSuccess, window.form.showErrorMessage);
   window.form.checkRoom(roomNumber.value);
   window.form.typeHouse(typeHouseSelect.value);
   window.form.createAddress(window.pin.positionPinDefault, true);
@@ -46,7 +46,6 @@ const deactivationMap = () => {
   mapPinMain.addEventListener(`keydown`, onPinKeyDown);
 
 };
-// const popup = window.data.getPins(8);
 
 const onPinMouseDown = (evt) => {
   window.util.clickOnMouse(evt, activationMap);
